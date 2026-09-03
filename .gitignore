@@ -3,3 +3,6 @@ dist
 .DS_Store
 *.local
 .vite
+
+# Source deck the brand assets were extracted from (kept locally, not shipped)
+*.pptx
