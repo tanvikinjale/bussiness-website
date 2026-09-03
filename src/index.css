@@ -1,0 +1,109 @@
+@import 'tailwindcss';
+
+/* Design tokens lifted directly from the company deck:
+   charcoal is the only text colour used across all 16 slides, cream is the
+   pill fill on the steam/jacuzzi slides, bone the hairline rule. */
+@theme {
+  --color-charcoal: #2c2926;
+  --color-cream: #f8ecd3;
+  --color-bone: #dfdfe0;
+  --color-gold: #e7bf6a;
+
+  --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+    /* The site is light-only; without this Chrome paints dark UA scrollbars
+       for viewers whose OS is in dark mode. */
+    color-scheme: light;
+  }
+
+  body {
+    background-color: #fff;
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background-color: var(--color-cream);
+    color: var(--color-charcoal);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-charcoal);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1.5rem;
+
+  @media (min-width: 1024px) {
+    padding-inline: 3rem;
+  }
+}
+
+/* The deck sets every heading in Bricolage at a tight leading; mirror that. */
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+
+@utility kicker {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-charcoal) 55%, #fff);
+}
+
+/* Line icons are extracted from the deck with pathLength="1" on every stroke,
+   so one dash value draws any of them. Toggled by AnimatedIcon on first view. */
+@keyframes icon-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.icon-draw :is(path, line, polyline, polygon, circle, ellipse, rect) {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.icon-draw.is-drawn :is(path, line, polyline, polygon, circle, ellipse, rect) {
+  animation: icon-draw 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-draw :is(path, line, polyline, polygon, circle, ellipse, rect) {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
